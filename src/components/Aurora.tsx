@@ -8,16 +8,9 @@ export const Aurora: React.FC<AuroraProps> = ({ color, pos, size }) => {
   return (
     <div
       style={{
-        pointerEvents: "none",
-        width: size.width,
-        height: size.height,
-        position: "absolute",
-        top: pos.top,
-        left: pos.left,
-        transform: "translate(-50%, -50%)",
         backgroundImage: `radial-gradient(ellipse at center, ${color}, transparent 60%)`,
-        zIndex: 5,
       }}
+      className={`pointer-events-none w-[1800px] h-[700px] absolute tp-[80%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] max-w-full`}
     />
   );
 };

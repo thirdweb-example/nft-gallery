@@ -8,4 +8,9 @@ export default defineConfig({
     "process.env": {},
     global: {},
   },
+  resolve: {
+    alias: {
+      "@": "/src",
+    },
+  },
 });
