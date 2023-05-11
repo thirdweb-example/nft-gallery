@@ -17,34 +17,34 @@ const DynamicDashboard = () => {
   const { data: contractMetadata } = useContractMetadata(contract);
 
   return (
-    <div className="text-neutral-200 bg-[#0A0A0A] m-0 p-0 min-h-screen">
+    <div className="m-0 min-h-screen bg-[#0A0A0A] p-0 text-neutral-200">
       <Header />
       {nft && (
-        <div className="w-full flex mx-auto px-4 min-h-screen">
-          <div className="w-1/2 flex flex-col px-10 min-h-screen">
+        <div className="mx-auto flex min-h-screen w-full px-4">
+          <div className="flex min-h-screen w-1/2 flex-col px-10">
             {nft && (
               <ThirdwebNftMedia
                 metadata={nft?.metadata}
-                className="!w-96 !h-96 rounded-lg"
+                className="!h-96 !w-96 rounded-lg"
               />
             )}
 
             {nft?.metadata.description && (
-              <p className="text-xl font-semibold mt-8 text-[#646D7A] uppercase">
+              <p className="mt-8 text-xl font-semibold uppercase text-[#646D7A]">
                 Description
               </p>
             )}
 
-            <p className="text-xl mt-4">{nft?.metadata.description}</p>
+            <p className="mt-4 text-xl">{nft?.metadata.description}</p>
 
-            <p className="text-xl font-semibold mt-8 text-[#646D7A] uppercase">
+            <p className="mt-8 text-xl font-semibold uppercase text-[#646D7A]">
               Attributes
             </p>
-            <div className="flex flex-wrap gap-4 mt-4">
+            <div className="mt-4 flex flex-wrap gap-4">
               {/* @ts-ignore */}
               {nft.metadata.attributes?.map(
                 (attr: { trait_type: string; value: string }) => (
-                  <div className="flex flex-col rounded-lg p-4 bg-black/50 border-2 border-gray-900">
+                  <div className="flex flex-col rounded-lg border-2 border-gray-900 bg-black/50 p-4">
                     <h2 className="text-md text-gray-500">{attr.trait_type}</h2>
                     <h1 className="text-lg text-gray-200">{attr.value}</h1>
                   </div>
@@ -53,33 +53,33 @@ const DynamicDashboard = () => {
             </div>
           </div>
 
-          <div className="w-1/2 flex flex-col px-10 min-h-screen">
+          <div className="flex min-h-screen w-1/2 flex-col px-10">
             {contractMetadata?.name && (
-              <p className="text-xl font-semibold mt-8 text-[#646D7A] uppercase">
+              <p className="mt-8 text-xl font-semibold uppercase text-[#646D7A]">
                 collection
               </p>
             )}
 
-            <p className="text-xl mt-4">{contractMetadata?.name}</p>
+            <p className="mt-4 text-xl">{contractMetadata?.name}</p>
 
-            <p className="text-xl font-semibold mt-8 text-[#646D7A] uppercase">
+            <p className="mt-8 text-xl font-semibold uppercase text-[#646D7A]">
               #{id}
             </p>
             {nft?.metadata.name && (
-              <p className="text-xl mt-4">
+              <p className="mt-4 text-xl">
                 {String(nft.metadata.name).split("#")[0]}
               </p>
             )}
 
             {nft?.owner && (
-              <p className="text-xl font-semibold mt-8 text-[#646D7A] uppercase">
+              <p className="mt-8 text-xl font-semibold uppercase text-[#646D7A]">
                 CURRENT OWNER
               </p>
             )}
 
-            <p className="text-xl mt-4">{truncateAddress(nft?.owner!)}</p>
+            <p className="mt-4 text-xl">{truncateAddress(nft?.owner!)}</p>
 
-            <div className="mt-auto mb-40">
+            <div className="mb-40 mt-auto">
               <PoweredBy />
             </div>
           </div>

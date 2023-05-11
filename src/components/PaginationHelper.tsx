@@ -8,9 +8,9 @@ interface IProps {
 
 const PaginationHelper: FC<IProps> = ({ page, setPage, noOfPages }) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="ml-auto flex items-center gap-2">
       <button
-        className="text-white px-4 py-2 rounded-lg bg-white/5 shadow-2xl disabled:opacity-50"
+        className="rounded-lg bg-white/5 px-4 py-2 text-white shadow-2xl disabled:opacity-50"
         onClick={() => setPage(page - 1)}
         disabled={page === 1}
       >
@@ -20,7 +20,7 @@ const PaginationHelper: FC<IProps> = ({ page, setPage, noOfPages }) => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="h-6 w-6"
         >
           <path
             strokeLinecap="round"
@@ -31,13 +31,13 @@ const PaginationHelper: FC<IProps> = ({ page, setPage, noOfPages }) => {
       </button>
       <input
         type="number"
-        className="text-white rounded-lg w-20 p-2 bg-white/5 shadow-2xl"
+        className="w-20 rounded-lg bg-white/5 p-2 text-white shadow-2xl"
         value={page}
         onChange={(e) => setPage(Number(e.target.value))}
       />
 
       <button
-        className="text-white px-4 py-2 rounded-lg bg-white/5 shadow-2xl"
+        className="rounded-lg bg-white/5 px-4 py-2 text-white shadow-2xl"
         onClick={() => setPage(page + 1)}
         disabled={page === noOfPages}
       >
@@ -47,7 +47,7 @@ const PaginationHelper: FC<IProps> = ({ page, setPage, noOfPages }) => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="h-6 w-6"
         >
           <path
             strokeLinecap="round"

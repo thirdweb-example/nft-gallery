@@ -4,23 +4,23 @@ import { Link } from "react-router-dom";
 
 export const Header: React.FC = () => {
   return (
-    <header className="w-full p-4 mb-12">
+    <header className="mb-12 w-full p-4">
       <Aurora
         size={{ width: "1800px", height: "700px" }}
         pos={{ top: "0%", left: "50%" }}
         color="hsl(277deg 59% 39% / 20%)"
       />
 
-      <div className="mx-auto flex justify-between items-center max-w-7xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
         <Link to="/">
           <div>
             <img
-              className="md:hidden w-12 h-12 object-contain"
+              className="h-12 w-12 object-contain md:hidden"
               src="/thirdweb.svg"
               alt="thirdweb"
             />
             <img
-              className="hidden md:block w-48 h-7 object-contain"
+              className="hidden h-7 w-48 object-contain md:block"
               src="/logo.png"
               alt="thirdweb"
             />

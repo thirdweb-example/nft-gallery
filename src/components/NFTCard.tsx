@@ -13,21 +13,21 @@ export const NFTCard: FC<INFTCardProps> = ({ nft }) => {
   return (
     <Link to={`/nft/${nft.metadata.id}`}>
       <div
-        className="flex flex-col items-center gap-4 justify-center mx-auto cursor-pointer hover:scale-105 transition-all duration-300 !w-60 z-10 bg-transparent"
+        className="z-10 mx-auto flex !w-60 cursor-pointer flex-col items-center justify-center gap-4 bg-transparent transition-all duration-300 hover:scale-105"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <ThirdwebNftMedia
           metadata={nft.metadata}
-          className="!w-60 !h-60 rounded-lg"
+          className="!h-60 !w-60 rounded-lg"
         />
 
         {hover && (
-          <div className="absolute h-60 w-60 rounded-lg bg-black/50 backdrop-filter flex items-center justify-center flex-col">
+          <div className="absolute flex h-60 w-60 flex-col items-center justify-center rounded-lg bg-black/50 backdrop-filter">
             <h1 className="text-2xl text-gray-200">
               {String(nft.metadata.name).split(" ")[0]}
             </h1>
-            <h1 className="text-2xl text-gray-200 font-bold">
+            <h1 className="text-2xl font-bold text-gray-200">
               {String(nft.metadata.name).split(" ")[1]}
             </h1>
           </div>

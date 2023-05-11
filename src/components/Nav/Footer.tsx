@@ -22,10 +22,11 @@ export const Footer: FC<IProps> = ({
   const end = start + nftsPerPage;
 
   return (
-    <div className="flex items-center justify-between mt-10 w-full">
+    <div className="mt-10 flex w-full items-center justify-between">
       <h3 className="text-2xl font-bold text-[#646D7A]">
         {end} / {totalCount.toNumber().toLocaleString()}
       </h3>
+
       <PaginationHelper page={page} noOfPages={noOfPages} setPage={setPage} />
       <PoweredBy />
     </div>

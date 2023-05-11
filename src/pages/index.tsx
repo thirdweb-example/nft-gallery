@@ -20,37 +20,45 @@ function App() {
   });
   const { data: nft, isLoading: nftLoading } = useNFT(contract, search);
   const { data: totalCount } = useTotalCount(contract);
-  const { data: contractMetadata } = useContractMetadata(contract);
+  const { data: contractMetadata, isLoading: contractLoading } =
+    useContractMetadata(contract);
 
   return (
-    <div className="text-neutral-200 bg-[#0A0A0A] m-0 p-0">
+    <div className="m-0 bg-[#0A0A0A] p-0 text-neutral-200">
       <Header />
 
-      <div className="w-full flex flex-col mx-auto px-4 min-h-screen">
-        {contractMetadata && (
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold">{contractMetadata.name}</h1>
-            <h2 className="text-xl font-bold">
+      <div className="z-20 mx-auto flex min-h-screen w-full flex-col px-4">
+        {contractMetadata ? (
+          <div className="mb-8 text-center">
+            <h1 className="text-4xl font-bold text-white">
+              {contractMetadata.name}
+            </h1>
+            <h2 className="text-xl font-bold text-white">
               {contractMetadata.description}
             </h2>
           </div>
-        )}
+        ) : contractLoading ? (
+          <div className="mx-auto mb-8 text-center">
+            <div className="mx-auto h-8 w-96 animate-pulse rounded-lg bg-gray-800" />
+            <div className="mx-auto mt-4 h-8 w-96 animate-pulse rounded-lg bg-gray-800" />
+          </div>
+        ) : null}
 
         <input
           type="text"
           onChange={(e) => setSearch(Number(e.target.value))}
-          className="w-96 h-12 text-white px-4 focus:outline-none focus:ring-1 focus:ring-opacity-50 mx-auto mb-8 rounded-full bg-white/5 border text-xl focus:ring-purple-700 border-white/10"
+          className="mx-auto mb-8 h-12 w-96 rounded-full border border-white/10 bg-white/5 px-4 text-xl text-white focus:outline-none focus:ring-1 focus:ring-purple-700 focus:ring-opacity-50"
           placeholder="Search by ID"
         />
         {search && nftLoading ? (
-          <div className="!w-60 !h-60 rounded-lg bg-gray-800 animate-pulse" />
+          <div className="!h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
         ) : null}
         {search && nft ? <NFTCard nft={nft} key={nft.metadata.id} /> : null}
 
         {isLoading && (
           <div className="flex flex-wrap gap-8">
             {Array.from({ length: nftsPerPage }).map((_, i) => (
-              <div className="!w-60 !h-60 rounded-lg bg-gray-800 animate-pulse" />
+              <div className="!h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
             ))}
           </div>
         )}
