@@ -19,7 +19,7 @@ export const NFTCard: FC<INFTCardProps> = ({ nft }) => {
       >
         <ThirdwebNftMedia
           metadata={nft.metadata}
-          className="!h-60 !w-60 rounded-lg"
+          className="!md:h-60 !md:w-60 !h-full !w-full rounded-lg"
         />
 
         {hover && (

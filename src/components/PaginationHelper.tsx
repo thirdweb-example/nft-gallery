@@ -8,7 +8,7 @@ interface IProps {
 
 const PaginationHelper: FC<IProps> = ({ page, setPage, noOfPages }) => {
   return (
-    <div className="ml-auto flex items-center gap-2">
+    <div className="md:ml-auto flex items-center gap-2">
       <button
         className="rounded-lg bg-white/5 px-4 py-2 text-white shadow-2xl disabled:opacity-50"
         onClick={() => setPage(page - 1)}

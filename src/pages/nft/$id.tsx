@@ -19,12 +19,12 @@ const NFTPage = () => {
   return (
     <div className="m-0 min-h-screen bg-[#0A0A0A] p-0 text-neutral-200">
       <Header />
-      <div className="mx-auto flex min-h-screen w-full px-4">
-        <div className="flex min-h-screen w-1/2 flex-col px-10">
+      <div className="mx-auto flex min-h-screen w-full flex-col px-4 md:flex-row">
+        <div className="flex min-h-screen flex-col px-10 md:w-1/2">
           {nft ? (
             <ThirdwebNftMedia
               metadata={nft?.metadata}
-              className="!h-96 !w-96 rounded-lg"
+              className="!md:h-96 !md:w-96 !h-full !w-full !rounded-lg !object-contain"
             />
           ) : (
             isLoading && (
@@ -116,7 +116,7 @@ const NFTPage = () => {
             <p className="mt-4 text-xl">{truncateAddress(nft?.owner!)}</p>
           )}
 
-          <div className="mb-40 mt-auto">
+          <div className="mb-40 mt-auto w-full">
             <PoweredBy />
           </div>
         </div>

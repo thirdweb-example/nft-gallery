@@ -22,7 +22,7 @@ export const Footer: FC<IProps> = ({
   const end = start + nftsPerPage;
 
   return (
-    <div className="mt-10 flex w-full items-center justify-between">
+    <div className="mt-10 flex w-full flex-col items-center gap-6 md:flex-row md:justify-between md:gap-0">
       <h3 className="text-2xl font-bold text-[#646D7A]">
         {end} / {totalCount.toNumber().toLocaleString()}
       </h3>

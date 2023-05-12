@@ -4,7 +4,7 @@ import type { FC } from "react";
 
 export const PoweredBy: FC = () => {
   return (
-    <div className="ml-auto mr-4 flex max-w-[250px] items-center justify-center gap-3 rounded-lg bg-white/5 p-2 shadow-2xl">
+    <div className="mr-4 flex max-w-[250px] items-center justify-center gap-3 rounded-lg bg-white/5 p-2 shadow-2xl md:ml-auto">
       <img
         className="h-10 w-10 object-contain"
         src="/thirdweb.svg"

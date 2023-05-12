@@ -47,12 +47,13 @@ function App() {
         <input
           type="text"
           onChange={(e) => setSearch(Number(e.target.value))}
-          className="mx-auto mb-8 h-12 w-96 rounded-full border border-white/10 bg-white/5 px-4 text-xl text-white focus:outline-none focus:ring-1 focus:ring-purple-700 focus:ring-opacity-50"
+          className="mx-auto mb-8 h-12 w-96 max-w-full rounded-full border border-white/10 bg-white/5 px-4 text-xl text-white focus:outline-none focus:ring-1 focus:ring-purple-700 focus:ring-opacity-50"
           placeholder="Search by ID"
         />
         {search && nftLoading ? (
           <div className="!h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
         ) : null}
+
         {search && nft ? <NFTCard nft={nft} key={nft.metadata.id} /> : null}
 
         {isLoading && (
@@ -68,7 +69,7 @@ function App() {
           color="hsl(277deg 59% 39% / 10%)"
         />
         {nfts && !search && (
-          <div className="flex flex-wrap gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-8">
             {nfts.map((nft) => (
               <NFTCard nft={nft} key={nft.metadata.id} />
             ))}
