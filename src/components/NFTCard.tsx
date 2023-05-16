@@ -23,7 +23,7 @@ export const NFTCard: FC<INFTCardProps> = ({ nft }) => {
         />
 
         {hover && (
-          <div className="md:h-60 md:w-60 absolute flex h-36 w-36 flex-col items-center justify-center rounded-lg bg-black/50 backdrop-filter">
+          <div className="absolute flex h-36 w-36 flex-col items-center justify-center rounded-lg bg-black/50 backdrop-filter md:h-60 md:w-60">
             <h1 className="text-2xl text-gray-200">
               {String(nft.metadata.name).split(" ")[0]}
             </h1>
