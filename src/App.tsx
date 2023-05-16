@@ -46,7 +46,7 @@ const router = createBrowserRouter(
     element: <Element />,
     // @ts-ignore
     ...(ErrorBoundary && { errorElement: <ErrorBoundary /> }),
-  }))
+  })),
 );
 
 const App = () => {

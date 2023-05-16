@@ -8,6 +8,7 @@ interface IProps {
   setPage: (page: number) => void;
   nftsPerPage: number;
   totalCount: BigNumber | undefined;
+  loading: boolean;
 }
 
 export const Footer: FC<IProps> = ({
@@ -15,6 +16,7 @@ export const Footer: FC<IProps> = ({
   setPage,
   nftsPerPage,
   totalCount,
+  loading,
 }) => {
   if (!totalCount) return null;
   const noOfPages = Math.ceil(totalCount.toNumber() / nftsPerPage);
@@ -27,7 +29,12 @@ export const Footer: FC<IProps> = ({
         {end} / {totalCount.toNumber().toLocaleString()}
       </h3>
 
-      <PaginationHelper page={page} noOfPages={noOfPages} setPage={setPage} />
+      <PaginationHelper
+        page={page}
+        noOfPages={noOfPages}
+        setPage={setPage}
+        loading={loading}
+      />
       <PoweredBy />
     </div>
   );
