@@ -1,31 +1,55 @@
-import { Aurora, Footer, Header, NFTCard } from "@/components";
+import { Footer, Header, NFTCard } from "@/components";
 import { contractAddress } from "@/details/contractAddress";
+import useDebounce from "@/hooks/useDebounce";
 import {
+  NFT,
   useContract,
   useContractMetadata,
   useNFT,
   useNFTs,
   useTotalCount,
 } from "@thirdweb-dev/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 function App() {
   const nftsPerPage = 30;
   const { contract } = useContract(contractAddress);
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState<number | null>(null);
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearchTerm = useDebounce(search, 500);
   const { data: nfts, isLoading } = useNFTs(contract, {
     count: nftsPerPage,
     start: (page - 1) * nftsPerPage,
   });
-  const { data: nft, isLoading: nftLoading } = useNFT(contract, search);
   const { data: totalCount } = useTotalCount(contract);
   const { data: contractMetadata, isLoading: contractLoading } =
     useContractMetadata(contract);
+  const [nft, setNft] = useState<NFT | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const fetchNFT = async () => {
+    const nft = await contract?.erc721.get(debouncedSearchTerm);
+    setNft(nft!);
+    setIsSearching(false);
+  };
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      setIsSearching(true);
+      fetchNFT();
+    } else {
+      setNft(null);
+    }
+  }, [debouncedSearchTerm]);
 
   return (
     <div className="m-0 bg-[#0A0A0A] p-0 text-neutral-200">
       <Header />
+
+      <Helmet>
+        <title>{contractMetadata?.name}</title>
+      </Helmet>
 
       <div className="z-20 mx-auto flex min-h-screen w-full flex-col px-4">
         {contractMetadata ? (
@@ -46,15 +70,26 @@ function App() {
 
         <input
           type="text"
-          onChange={(e) => setSearch(Number(e.target.value))}
-          className="mx-auto mb-8 h-12 w-96 max-w-full rounded-full border border-white/10 bg-white/5 px-4 text-xl text-white focus:outline-none focus:ring-1 focus:ring-purple-700 focus:ring-opacity-50"
+          onChange={(e) => {
+            if (
+              e.target.value.match(/^[0-9]*$/) &&
+              Number(e.target.value) > 0
+            ) {
+              setSearch(e.target.value);
+            } else {
+              setSearch("");
+            }
+          }}
+          className="mx-auto mb-8 h-12 w-96 max-w-full rounded-full border border-white/10 bg-white/5 px-4 text-xl text-white focus:outline-none focus:ring-1 focus:ring-slate-800 focus:ring-opacity-50"
           placeholder="Search by ID"
         />
-        {search && nftLoading ? (
-          <div className="!h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
+        {isSearching ? (
+          <div className="mx-auto !h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
         ) : null}
 
-        {search && nft ? <NFTCard nft={nft} key={nft.metadata.id} /> : null}
+        {search && nft && !isSearching ? (
+          <NFTCard nft={nft} key={nft.metadata.id} />
+        ) : null}
 
         {isLoading && (
           <div className="flex flex-wrap gap-8">
@@ -63,11 +98,7 @@ function App() {
             ))}
           </div>
         )}
-        <Aurora
-          size={{ width: "1800px", height: "700px" }}
-          pos={{ top: "80%", left: "50%" }}
-          color="hsl(277deg 59% 39% / 10%)"
-        />
+
         {nfts && !search && (
           <div className="flex flex-wrap items-center justify-center gap-8">
             {nfts.map((nft) => (
@@ -76,12 +107,13 @@ function App() {
           </div>
         )}
 
-        {!isLoading && !search && (
+        {!search && (
           <Footer
             page={page}
             setPage={setPage}
             nftsPerPage={nftsPerPage}
             totalCount={totalCount}
+            loading={isLoading}
           />
         )}
       </div>

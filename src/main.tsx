@@ -11,5 +11,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <ThirdwebProvider activeChain={activeChain}>
       <App />
     </ThirdwebProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
