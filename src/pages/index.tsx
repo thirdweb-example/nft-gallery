@@ -1,6 +1,7 @@
 import { Footer, Header, NFTCard } from "@/components";
-import { contractAddress } from "@/details/contractAddress";
+import { contractAddress } from "@/consts/parameters";
 import useDebounce from "@/hooks/useDebounce";
+import { SearchIcon } from "@/icons/SearchIcon";
 import {
   NFT,
   useContract,
@@ -44,7 +45,7 @@ function App() {
   }, [debouncedSearchTerm]);
 
   return (
-    <div className="m-0 bg-[#0A0A0A] p-0 text-neutral-200">
+    <div className="m-0 bg-[#0A0A0A] p-0 font-inter text-neutral-200">
       <Header />
 
       <Helmet>
@@ -68,21 +69,25 @@ function App() {
           </div>
         ) : null}
 
-        <input
-          type="text"
-          onChange={(e) => {
-            if (
-              e.target.value.match(/^[0-9]*$/) &&
-              Number(e.target.value) > 0
-            ) {
-              setSearch(e.target.value);
-            } else {
-              setSearch("");
-            }
-          }}
-          className="mx-auto mb-8 h-12 w-96 max-w-full rounded-full border border-white/10 bg-white/5 px-4 text-xl text-white focus:outline-none focus:ring-1 focus:ring-slate-800 focus:ring-opacity-50"
-          placeholder="Search by ID"
-        />
+        <div className="mx-auto mb-8 flex h-12 w-96 max-w-full items-center rounded-lg border border-white/10 bg-white/5 px-4 text-xl text-white">
+          <SearchIcon />
+          <input
+            type="text"
+            onChange={(e) => {
+              if (
+                e.target.value.match(/^[0-9]*$/) &&
+                Number(e.target.value) > 0
+              ) {
+                setSearch(e.target.value);
+              } else {
+                setSearch("");
+              }
+            }}
+            placeholder="Search by ID"
+            className="w-full bg-transparent px-4 text-white focus:outline-none"
+          />
+        </div>
+
         {isSearching ? (
           <div className="mx-auto !h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
         ) : null}
