@@ -1,4 +1,4 @@
-import { contractAddress } from "@/details/contractAddress";
+import { contractAddress } from "@/consts/parameters";
 import {
   ConnectWallet,
   useContract,
@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
           ) : (
             <>
               <img
-                className="h-14 w-14 rounded-full object-contain"
+                className="h-10 w-10 rounded-full object-contain"
                 src={contractMetadata?.image || firstNFT?.metadata.image}
                 alt={contractMetadata?.name || firstNFT?.metadata.name}
               />
