@@ -1703,7 +1703,7 @@
     "@tanstack/query-core" "4.29.7"
     use-sync-external-store "^1.2.0"
 
-"@thirdweb-dev/chains@0.1.15":
+"@thirdweb-dev/chains@0.1.15", "@thirdweb-dev/chains@^0.1.15":
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.15.tgz#f58db7a54be7a321d894436970b9c82f6e8b15d1"
   integrity sha512-7jmneTK1ExhigH5O8S5Ez7Th19SNSBQXzGsTKFOSDtdn4B7PobKNxd3O9MWtOgeSlM+54vVsDjXPHmpIAP7pAg==

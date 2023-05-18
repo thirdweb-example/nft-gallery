@@ -1,5 +1,5 @@
 import { Footer, Header, NFTCard } from "@/components";
-import { contractAddress } from "@/consts/parameters";
+import { contractConst } from "@/consts/parameters";
 import useDebounce from "@/hooks/useDebounce";
 import { SearchIcon } from "@/icons/SearchIcon";
 import {
@@ -13,6 +13,9 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 
 function App() {
+  const urlParams = new URL(window.location.toString()).searchParams;
+  const contractAddress = urlParams.get("contract") || contractConst || "";
+
   const nftsPerPage = 30;
   const { contract } = useContract(contractAddress);
   const [page, setPage] = useState(1);
@@ -42,6 +45,13 @@ function App() {
       setNft(null);
     }
   }, [debouncedSearchTerm]);
+  if (!contractAddress) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        No contract address provided
+      </div>
+    );
+  }
 
   return (
     <div className="m-0 bg-[#0A0A0A] p-0 font-inter text-neutral-200">

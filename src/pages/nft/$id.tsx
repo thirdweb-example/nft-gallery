@@ -1,7 +1,7 @@
 import { Header } from "@/components";
 import { HistoryCard } from "@/components/HistoryCard";
 import { PoweredBy } from "@/components/PoweredBy";
-import { contractAddress } from "@/consts/parameters";
+import { contractConst } from "@/consts/parameters";
 import { truncateAddress } from "@/utils/truncateAddress";
 import {
   ThirdwebNftMedia,
@@ -16,6 +16,8 @@ import { useParams } from "react-router-dom";
 
 const NFTPage = () => {
   const { id } = useParams();
+  const urlParams = new URL(window.location.toString()).searchParams;
+  const contractAddress = urlParams.get("contract") || contractConst || "";
   const { contract } = useContract(contractAddress);
   const { data: nft, isLoading } = useNFT(contract, Number(id));
   const { data: contractMetadata } = useContractMetadata(contract);

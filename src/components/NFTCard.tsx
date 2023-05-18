@@ -1,3 +1,4 @@
+import { chainConst, contractConst } from "@/consts/parameters";
 import { ThirdwebNftMedia } from "@thirdweb-dev/react";
 import { NFT } from "@thirdweb-dev/sdk";
 import { FC, useState } from "react";
@@ -8,10 +9,19 @@ interface INFTCardProps {
 }
 
 export const NFTCard: FC<INFTCardProps> = ({ nft }) => {
+  const urlParams = new URL(window.location.toString()).searchParams;
+  const contractAddress = urlParams.get("contract") || contractConst || "";
+  const chain =
+    (urlParams.get("chain") && JSON.parse(String(urlParams.get("chain")))) ||
+    chainConst;
   const [hover, setHover] = useState<boolean>(false);
 
   return (
-    <Link to={`/nft/${nft.metadata.id}`}>
+    <Link
+      to={`/nft/${
+        nft.metadata.id
+      }?contract=${contractAddress}&chain=${JSON.stringify(chain)}`}
+    >
       <div
         className="z-10 mx-auto flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-4 bg-transparent transition-all duration-300 hover:scale-105 md:h-60 md:w-60"
         onMouseEnter={() => setHover(true)}

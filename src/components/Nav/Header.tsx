@@ -1,4 +1,4 @@
-import { contractAddress } from "@/consts/parameters";
+import { chainConst, contractConst } from "@/consts/parameters";
 import {
   ConnectWallet,
   useContract,
@@ -8,14 +8,20 @@ import {
 import { Link } from "react-router-dom";
 
 export const Header: React.FC = () => {
+  const urlParams = new URL(window.location.toString()).searchParams;
+  const contractAddress = urlParams.get("contract") || contractConst || "";
+  const chain =
+    (urlParams.get("chain") && JSON.parse(String(urlParams.get("chain")))) ||
+    chainConst;
+
   const { contract } = useContract(contractAddress);
-  const { data: firstNFT, isLoading: nftLoading } = useNFT(contract, 0);
+  const { data: firstNFT } = useNFT(contract, 0);
   const { data: contractMetadata, isLoading: contractLoading } =
     useContractMetadata(contract);
 
   return (
     <header className="mx-auto mb-12 flex w-full max-w-7xl items-center justify-between p-4">
-      <Link to="/">
+      <Link to={`/?contract=${contractAddress}&chain=${JSON.stringify(chain)}`}>
         <div className="flex items-center space-x-4">
           {contractLoading ? (
             <>
