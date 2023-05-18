@@ -6,7 +6,6 @@ import {
   NFT,
   useContract,
   useContractMetadata,
-  useNFT,
   useNFTs,
   useTotalCount,
 } from "@thirdweb-dev/react";
