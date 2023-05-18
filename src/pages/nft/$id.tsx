@@ -1,6 +1,7 @@
 import { Header } from "@/components";
+import { HistoryCard } from "@/components/HistoryCard";
 import { PoweredBy } from "@/components/PoweredBy";
-import { blockExplorer, contractAddress } from "@/consts/parameters";
+import { contractAddress } from "@/consts/parameters";
 import { truncateAddress } from "@/utils/truncateAddress";
 import {
   ThirdwebNftMedia,
@@ -9,10 +10,9 @@ import {
   useContractMetadata,
   useNFT,
 } from "@thirdweb-dev/react";
-import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { useEffect } from "react";
-import { LinkIcon } from "@/icons/LinkIcon";
+import { Helmet } from "react-helmet";
+import { useParams } from "react-router-dom";
 
 const NFTPage = () => {
   const { id } = useParams();
@@ -58,56 +58,21 @@ const NFTPage = () => {
           )}
 
           {eventsData && eventsData?.length > 0 ? (
-            <p className="mt-8 text-lg font-semibold uppercase text-[#646D7A]">
+            <p className="mt-8 hidden text-lg font-semibold uppercase text-[#646D7A] md:flex">
               History
             </p>
           ) : (
             isLoading && (
-              <div className="mt-8 h-8 w-1/2 animate-pulse rounded-lg bg-gray-800" />
+              <div className="mt-8 hidden h-8 w-1/2 animate-pulse rounded-lg bg-gray-800 md:flex" />
             )
           )}
 
           {eventsLoading ? (
-            <div className="mt-2 h-8 w-1/2 animate-pulse rounded-lg bg-gray-800" />
+            <div className="mt-2 hidden h-8 w-1/2 animate-pulse rounded-lg bg-gray-800 md:flex" />
           ) : (
-            <div className="mt-4 flex flex-col gap-4">
+            <div className="mt-4 hidden flex-col gap-4 md:flex">
               {eventsData?.map((event) => (
-                <a
-                  href={`${blockExplorer}/tx/${event.transaction.transactionHash}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex flex-col items-center justify-evenly gap-4 rounded-xl border-2 border-gray-800 p-4 md:flex-row"
-                  key={event.transaction.transactionHash}
-                >
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm font-semibold text-[#646D7A] ">
-                      EVENT
-                    </p>
-                    <p className="text-md font-bold text-white">
-                      {event.eventName}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="flex flex-col gap-2">
-                      <p className="text-sm font-semibold text-[#646D7A] ">
-                        FROM
-                      </p>
-                      <p className="text-md font-bold text-[#646d7a]">
-                        {truncateAddress(event.data.from)}
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <p className="text-sm font-semibold text-[#646D7A] ">
-                        TO
-                      </p>
-                      <p className="text-md font-bold text-[#646d7a]">
-                        {truncateAddress(event.data.to)}
-                      </p>
-                    </div>
-                  </div>
-
-                  <LinkIcon />
-                </a>
+                <HistoryCard event={event} />
               ))}
             </div>
           )}
@@ -217,6 +182,26 @@ const NFTPage = () => {
                   </div>
                 </>
               )}
+
+            {eventsData && eventsData?.length > 0 ? (
+              <p className="mt-8 flex text-lg font-semibold uppercase text-[#646D7A] md:hidden">
+                History
+              </p>
+            ) : (
+              isLoading && (
+                <div className="mt-8 flex h-8 w-1/2 animate-pulse rounded-lg bg-gray-800 md:hidden" />
+              )
+            )}
+
+            {eventsLoading ? (
+              <div className="mt-2 flex h-8 w-1/2 animate-pulse rounded-lg bg-gray-800 md:hidden" />
+            ) : (
+              <div className="mt-4  flex flex-col gap-4 md:hidden">
+                {eventsData?.map((event) => (
+                  <HistoryCard event={event} />
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="mb-8 mt-auto md:mb-40 md:w-full">
