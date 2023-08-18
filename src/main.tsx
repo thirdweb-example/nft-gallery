@@ -7,7 +7,10 @@ import { chain } from "./consts/parameters";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThirdwebProvider activeChain={chain}>
+    <ThirdwebProvider
+      activeChain={chain}
+      clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
+    >
       <App />
     </ThirdwebProvider>
   </React.StrictMode>,
