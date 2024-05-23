@@ -1,35 +1,41 @@
-import { Footer, Header, NFTCard } from "@/components";
-import { contractAddress } from "@/consts/parameters";
+import { Footer } from "@/components/Nav/Footer";
+import { Header } from "@/components/Nav/Header";
+import { NFTCard } from "@/components/NFTCard";
+import { nftContract } from "@/consts/parameters";
 import useDebounce from "@/hooks/useDebounce";
 import { SearchIcon } from "@/icons/SearchIcon";
-import {
-  NFT,
-  useContract,
-  useContractMetadata,
-  useNFTs,
-  useTotalCount,
-} from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { NFT } from "thirdweb";
+import { getContractMetadata } from "thirdweb/extensions/common";
+import { getNFT, getNFTs, totalSupply } from "thirdweb/extensions/erc721";
+import { useReadContract } from "thirdweb/react";
 
 function App() {
   const nftsPerPage = 30;
-  const { contract } = useContract(contractAddress);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState<string>("");
   const debouncedSearchTerm = useDebounce(search, 500);
-  const { data: nfts, isLoading } = useNFTs(contract, {
+  const { data: nfts, isLoading } = useReadContract(getNFTs, {
+    contract: nftContract,
     count: nftsPerPage,
     start: (page - 1) * nftsPerPage,
   });
-  const { data: totalCount } = useTotalCount(contract);
+  const { data: totalCount } = useReadContract(totalSupply, {
+    contract: nftContract,
+  });
   const { data: contractMetadata, isLoading: contractLoading } =
-    useContractMetadata(contract);
+    useReadContract(getContractMetadata, {
+      contract: nftContract,
+    });
   const [nft, setNft] = useState<NFT | null>(null);
   const [isSearching, setIsSearching] = useState(false);
 
   const fetchNFT = async () => {
-    const nft = await contract?.erc721.get(debouncedSearchTerm);
+    const nft = await getNFT({
+      contract: nftContract,
+      tokenId: BigInt(debouncedSearchTerm),
+    });
     setNft(nft!);
     setIsSearching(false);
   };
@@ -71,7 +77,7 @@ function App() {
         <div className="mx-auto mb-8 flex h-12 w-96 max-w-full items-center rounded-lg border border-white/10 bg-white/5 px-4 text-xl text-white">
           <SearchIcon />
           <input
-            type="text"
+            type="number"
             onChange={(e) => {
               if (
                 e.target.value.match(/^[0-9]*$/) &&
@@ -82,7 +88,7 @@ function App() {
                 setSearch("");
               }
             }}
-            placeholder="Search by ID"
+            placeholder="Search by Token ID"
             className="w-full bg-transparent px-4 text-white focus:outline-none"
           />
         </div>
@@ -92,13 +98,16 @@ function App() {
         ) : null}
 
         {search && nft && !isSearching ? (
-          <NFTCard nft={nft} key={nft.metadata.id} />
+          <NFTCard nft={nft} key={nft.id.toString()} />
         ) : null}
 
         {isLoading && (
           <div className="mx-auto flex flex-wrap items-center justify-center gap-8">
             {Array.from({ length: nftsPerPage }).map((_, i) => (
-              <div className="!h-60 !w-60 animate-pulse rounded-lg bg-gray-800" />
+              <div
+                className="!h-60 !w-60 animate-pulse rounded-lg bg-gray-800"
+                key={i}
+              />
             ))}
           </div>
         )}
@@ -106,7 +115,7 @@ function App() {
         {nfts && !search && (
           <div className="flex flex-wrap items-center justify-center gap-8">
             {nfts.map((nft) => (
-              <NFTCard nft={nft} key={nft.metadata.id} />
+              <NFTCard nft={nft} key={nft.id.toString()} />
             ))}
           </div>
         )}
@@ -116,7 +125,7 @@ function App() {
             page={page}
             setPage={setPage}
             nftsPerPage={nftsPerPage}
-            totalCount={totalCount}
+            totalCount={totalCount ? Number(totalCount) : undefined}
             loading={isLoading}
           />
         )}

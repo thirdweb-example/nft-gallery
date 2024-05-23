@@ -1,37 +1,36 @@
-import { Header } from "@/components";
 import { HistoryCard } from "@/components/HistoryCard";
+import { Header } from "@/components/Nav/Header";
 import { PoweredBy } from "@/components/PoweredBy";
-import { contractAddress } from "@/consts/parameters";
+import { client, nftContract } from "@/consts/parameters";
 import { truncateAddress } from "@/utils/truncateAddress";
-import {
-  ThirdwebNftMedia,
-  useContract,
-  useContractEvents,
-  useContractMetadata,
-  useNFT,
-} from "@thirdweb-dev/react";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
+import {
+  MediaRenderer,
+  useContractEvents,
+  useReadContract,
+} from "thirdweb/react";
+import { getNFT, transferEvent } from "thirdweb/extensions/erc721";
+import { getContractMetadata } from "thirdweb/extensions/common";
 
 const NFTPage = () => {
   const { id } = useParams();
-  const { contract } = useContract(contractAddress);
-  const { data: nft, isLoading } = useNFT(contract, Number(id));
-  const { data: contractMetadata } = useContractMetadata(contract);
-  const { data: eventsData, isLoading: eventsLoading } = useContractEvents(
-    contract,
-    "Transfer",
-    {
-      queryFilter: {
-        filters: {
-          tokenId: Number(id!),
-        },
-        order: "desc",
-      },
-    },
-  );
-
+  const { data: nft, isLoading } = useReadContract(getNFT, {
+    contract: nftContract,
+    tokenId: BigInt(id as string),
+  });
+  const { data: contractMetadata } = useReadContract(getContractMetadata, {
+    contract: nftContract,
+  });
+  const { data: eventsData, isLoading: eventsLoading } = useContractEvents({
+    contract: nftContract,
+    events: [
+      transferEvent({
+        tokenId: BigInt(id as string),
+      }),
+    ],
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -47,8 +46,9 @@ const NFTPage = () => {
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 md:flex-row">
         <div className="flex flex-col px-10 md:min-h-screen md:w-1/2">
           {nft ? (
-            <ThirdwebNftMedia
-              metadata={nft?.metadata}
+            <MediaRenderer
+              client={client}
+              src={nft?.metadata.image}
               className="!md:h-96 !md:w-96 !h-full !max-h-[600px] !w-full !max-w-[600px] !rounded-lg !object-cover"
             />
           ) : (
@@ -130,7 +130,7 @@ const NFTPage = () => {
               <div className="mt-2 h-8 w-1/2 animate-pulse rounded-lg bg-gray-800" />
             ) : (
               <p className="text-3xl font-bold text-white">
-                {truncateAddress(nft?.owner!)}
+                {nft?.owner ? truncateAddress(nft?.owner!) : "N/A"}
               </p>
             )}
           </div>
