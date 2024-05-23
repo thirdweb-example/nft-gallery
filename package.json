@@ -10,24 +10,24 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "dependencies": {
-    "react": "^18.2",
-    "react-dom": "^18.2",
+    "react": "^18.3",
+    "react-dom": "^18.3",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.11.1",
+    "react-router-dom": "^6.23.1",
     "thirdweb": "^5.23.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.6",
-    "@types/react-dom": "^18.2.4",
-    "@types/react-helmet": "^6.1.6",
-    "@vitejs/plugin-react-swc": "^3.3.1",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.2.8",
-    "tailwindcss": "^3.3.2",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-helmet": "^6.1.11",
+    "@vitejs/plugin-react-swc": "^3.7.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5",
-    "vite": "^4.3.5",
-    "vite-plugin-node-polyfills": "^0.8.2"
+    "vite": "^5.2.11",
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }

@@ -1,4 +1,3 @@
-import { BigNumber } from "ethers";
 import type { FC } from "react";
 import { PaginationHelper } from "../PaginationHelper";
 import { PoweredBy } from "../PoweredBy";
